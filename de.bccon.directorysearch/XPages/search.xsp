@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xc:cc_Application navigationPath="/home/search"
+		pageTitle="Directory Search"><xp:this.facets>
+	<xp:panel xp:key="facetRight"></xp:panel>
+	<xp:panel xp:key="facetMiddle">
+		<xp:inputText id="inputText1" value="#{viewScope.searchQuery}"></xp:inputText>
+		<xp:button value="Suche" id="button1">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="complete">
+				<xp:this.action><![CDATA[#{javascript:context.redirectToPage("search.xsp?q="+viewScope.searchQuery)}]]></xp:this.action>
+			</xp:eventHandler></xp:button>
+		<xp:viewPanel rows="30" id="viewPanel1">
+			<xp:this.facets>
+				<xp:pager partialRefresh="true"
+					layout="Previous Group Next" xp:key="headerPager" id="pager1">
+				</xp:pager>
+			</xp:this.facets>
+			<xp:this.data>
+				<xp:dominoView var="searchView"
+					databaseName="bccon\wgc_names.nsf" viewName="People">
+					<xp:this.search><![CDATA[#{javascript:var query = paramValues.q;
+if (query == null || query =="") {
+	return "";
+}
+return "FIELD Fullname contains " +query;}]]></xp:this.search>
+				</xp:dominoView>
+			</xp:this.data>
+			<xp:viewColumn columnName="$17" id="viewColumn1">
+				<xp:viewColumnHeader value="Name"
+					id="viewColumnHeader1">
+				</xp:viewColumnHeader>
+			</xp:viewColumn>
+			<xp:viewColumn columnName="$12" id="viewColumn2">
+				<xp:viewColumnHeader value="Telephone"
+					id="viewColumnHeader2">
+				</xp:viewColumnHeader>
+			</xp:viewColumn>
+			<xp:viewColumn columnName="CompanyName" id="viewColumn3">
+				<xp:viewColumnHeader value="Company"
+					id="viewColumnHeader3">
+				</xp:viewColumnHeader>
+			</xp:viewColumn>
+			<xp:viewColumn columnName="$16" id="viewColumn4">
+				<xp:viewColumnHeader value="E-Mail"
+					id="viewColumnHeader4">
+				</xp:viewColumnHeader>
+			</xp:viewColumn>
+			<xp:viewColumn columnName="$21" id="viewColumn5">
+				<xp:viewColumnHeader value="Mail Server"
+					id="viewColumnHeader5">
+				</xp:viewColumnHeader>
+			</xp:viewColumn>
+			<xp:viewColumn columnName="SametimeInfo" id="viewColumn6">
+				<xp:viewColumnHeader value="Sametime Information"
+					id="viewColumnHeader6">
+				</xp:viewColumnHeader>
+			</xp:viewColumn>
+		</xp:viewPanel></xp:panel>
+	</xp:this.facets>
+	</xc:cc_Application></xp:view>
